@@ -1,7 +1,11 @@
 import streamlit as st
 import torch
 from transformers import pipeline
+from huggingface_hub import login
 from github import Github  # Import PyGithub
+
+HF_TOKEN = "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"
+login(HF_TOKEN)
 
 st.title("GitHub Chat App with LLaMA")
 
@@ -16,7 +20,7 @@ def load_model():
         device = -1  # Use CPU if no GPU is available
         st.warning("GPU not available. Using CPU for model inference.")
     
-    return pipeline("text-generation", model="meta-llama/Llama-3.2-1B-Instruct", device=device)
+    return pipeline("text-generation", model="meta-llama/Llama-3.2-1B-Instruct",use_auth_token=HF_TOKEN, device=device)
 
 # Load the model
 model = load_model()
